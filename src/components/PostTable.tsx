@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -17,7 +16,6 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -26,30 +24,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Pencil, Trash, MoreHorizontal } from "lucide-react";
-
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
-
-function usePostData(initialPosts: Post[]) {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
-
-  const handleEdit = (id: number, newTitle: string, newBody: string) => {
-    setPosts(
-      posts.map((post) =>
-        post.id === id ? { ...post, title: newTitle, body: newBody } : post
-      )
-    );
-  };
-
-  const handleDelete = (id: number) => {
-    setPosts(posts.filter((post) => post.id !== id));
-  };
-
-  return { posts, handleEdit, handleDelete };
-}
+import EditForm from "./EditPost";
+import usePostData from "@/src/hooks/usePostData";
+import { Post } from "@/src/types/Post";
 
 export default function PostTable() {
   const initialPosts: Post[] = [
@@ -138,53 +115,5 @@ export default function PostTable() {
         </Table>
       </div>
     </div>
-  );
-}
-
-function EditForm({
-  post,
-  onSave,
-}: {
-  post: Post;
-  onSave: (id: number, title: string, body: string) => void;
-}) {
-  const [title, setTitle] = useState(post.title);
-  const [body, setBody] = useState(post.body);
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSave(post.id, title, body);
-      }}
-    >
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="title" className="text-right">
-            Title
-          </label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="col-span-3"
-          />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="body" className="text-right">
-            Body
-          </label>
-          <Input
-            id="body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            className="col-span-3"
-          />
-        </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit">Save changes</Button>
-      </DialogFooter>
-    </form>
   );
 }
