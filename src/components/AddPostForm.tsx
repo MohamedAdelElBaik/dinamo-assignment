@@ -39,26 +39,28 @@ export default function AddPostForm() {
   return (
     <form onSubmit={handleSubmit}>
       <CardContent>
-        <div className="space-y-3">
-          <div>
-            <Label htmlFor="title" className="text-base md:text-lg">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="title" className="text-xl">
               Title
             </Label>
             <Input
               id="title"
               name="title"
               type="text"
+              placeholder="Add post title"
               onChange={handleChange}
               value={formValues.title}
             />
           </div>
-          <div>
-            <Label htmlFor="body" className="text-base md:text-lg">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="body" className="text-xl md:text-5xl">
               Body
             </Label>
             <Textarea
               id="body"
               name="body"
+              placeholder="Add post body"
               onChange={handleChange}
               value={formValues.body}
             />

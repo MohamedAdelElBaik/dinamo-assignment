@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PostTableSkeleton() {
   return (
-    <Table className="border">
+    <Table className="border border-green-600/30">
       <TableHeader>
         <TableRow>
           <TableHead>

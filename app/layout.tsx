@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { BookType } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,8 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-green-100/30`}
       >
+        <nav className="h-20 bg-green-900 text-white w-full p-2 flex items-center">
+          <div className="container mx-auto flex justify-start items-center gap-4">
+            <BookType size={50} />
+            <p className="text-xl font-bold uppercase">welcome in post app</p>
+          </div>
+        </nav>
         {children}
       </body>
     </html>

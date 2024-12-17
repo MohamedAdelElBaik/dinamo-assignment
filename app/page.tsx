@@ -7,8 +7,8 @@ import { PostProvider } from "@/src/context/postProvider";
 export default function Home() {
   return (
     <PostProvider>
-      <div className="p-1 m-1 md:p-2 md:m-2">
-        <div className="grid gap-4 lg:grid-cols-2">
+      <main className="w-full py-4 md:py-8">
+        <div className="container mx-auto grid gap-4 lg:grid-cols-2 px-4">
           <section>
             <AddPost />
           </section>
@@ -17,7 +17,7 @@ export default function Home() {
             <PostsCard />
           </section>
         </div>
-      </div>
+      </main>
     </PostProvider>
   );
 }
