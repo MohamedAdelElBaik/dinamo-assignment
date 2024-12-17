@@ -6,13 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import React, { useState } from "react";
-import { createPost } from "../services/postService";
+// import { createPost } from "../services/postService";
+import { usePostContext } from "../context/postContext";
 
 const initialFormValue = { title: "", body: "" };
 
 export default function AddPostForm() {
   const [formValues, setFormValues] = useState(initialFormValue);
   const [isLoading, setIsLoading] = useState(false);
+  const { createPostFun } = usePostContext();
 
   function haveContent() {
     if (!formValues.title || !formValues.body) return false;
@@ -29,23 +31,10 @@ export default function AddPostForm() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setIsLoading(true);
 
-    async function createPostFun() {
-      try {
-        await createPost(formValues);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-        setFormValues(initialFormValue);
-      }
-    }
-
-    createPostFun();
+    createPostFun(formValues, setIsLoading);
+    setFormValues(initialFormValue);
   }
-
-  if (isLoading) return <div>loading.....</div>;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -77,8 +66,8 @@ export default function AddPostForm() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button type="submit" disabled={!haveContent()}>
-          Submit
+        <Button type="submit" disabled={!haveContent() || isLoading}>
+          {!isLoading ? "Submit" : "Loading..."}
         </Button>
       </CardFooter>
     </form>

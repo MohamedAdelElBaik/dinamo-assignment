@@ -19,36 +19,13 @@ import {
 import { Pencil, Trash, MoreHorizontal } from "lucide-react";
 import EditForm from "./EditPost";
 import { Post } from "@/src/types/Post";
-import { useState } from "react";
+import { usePostContext } from "../context/postContext";
 import PostTableRowSkeleton from "./PostTableRowSkeleton";
-import { handleDelete } from "../services/postActions";
-import { updatePost } from "../services/postService";
+import { useState } from "react";
 
-export default function PostTableRow({
-  post,
-  setPosts,
-}: {
-  post: Post;
-  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
-}) {
+export default function PostTableRow({ post }: { post: Post }) {
+  const { deletePostById } = usePostContext();
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleEdit = async (id: number, newTitle: string, newBody: string) => {
-    setIsLoading(true);
-    try {
-      await updatePost(id, { id, title: newTitle, body: newBody });
-
-      setPosts((posts) =>
-        posts.map((post) =>
-          post.id === id ? { ...post, title: newTitle, body: newBody } : post
-        )
-      );
-    } catch (error) {
-      console.error("Failed to fetch posts:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   if (isLoading) return <PostTableRowSkeleton />;
 
@@ -76,9 +53,10 @@ export default function PostTableRow({
                 <DialogHeader>
                   <DialogTitle>Edit Post</DialogTitle>
                 </DialogHeader>
-                <EditForm post={post} onSave={handleEdit} />
+                <EditForm post={post} />
               </DialogContent>
             </Dialog>
+
             <Dialog>
               <DialogTrigger asChild>
                 <DropdownMenuItem
@@ -98,9 +76,7 @@ export default function PostTableRow({
                 <DialogFooter>
                   <Button
                     variant="outline"
-                    onClick={() =>
-                      handleDelete(post.id, setIsLoading, setPosts)
-                    }
+                    onClick={() => deletePostById(post.id, setIsLoading)}
                   >
                     Yes, delete it
                   </Button>

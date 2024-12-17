@@ -5,14 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Post } from "@/src/types/Post";
+import { usePostContext } from "../context/postContext";
 
-export default function EditForm({
-  post,
-  onSave,
-}: {
-  post: Post;
-  onSave: (id: number, title: string, body: string) => void;
-}) {
+export default function EditForm({ post }: { post: Post }) {
+  const { editPost } = usePostContext();
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
 
@@ -20,7 +16,7 @@ export default function EditForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onSave(post.id, title, body);
+        editPost(post.id, title, body);
       }}
     >
       <div className="grid gap-4 py-4">

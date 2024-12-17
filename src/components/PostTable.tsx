@@ -7,29 +7,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Post } from "@/src/types/Post";
-import { useEffect, useState } from "react";
-import { fetchPosts } from "../services/postService";
+import { useEffect } from "react";
 import PostTableSkeleton from "./PostTableSkeleton";
 import PostTableRow from "./PostTableRow";
+import { usePostContext } from "../context/postContext";
 
 export default function PostTable() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { fetchAllPosts, state } = usePostContext();
+  const { loading, posts } = state;
 
   useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const fetchedPosts = await fetchPosts();
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPosts();
+    fetchAllPosts();
   }, []);
 
   if (loading) return <PostTableSkeleton />;
@@ -47,7 +35,7 @@ export default function PostTable() {
           </TableHeader>
           <TableBody>
             {posts.map((post) => (
-              <PostTableRow post={post} setPosts={setPosts} key={post.id} />
+              <PostTableRow post={post} key={post.id + post.title} />
             ))}
           </TableBody>
         </Table>
