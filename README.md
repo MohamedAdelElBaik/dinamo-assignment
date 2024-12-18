@@ -4,18 +4,12 @@ This is a simple posts management application built using Next.js, TypeScript, a
 
 ## How to Run the Application
 
-### Prerequisites
-
-- Node.js (>= 16.x)
-- npm or yarn
-
 ### Steps
 
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/MohamedAdelElBaik/dinamo-assignment.git
    ```
 
 2. Install dependencies:
