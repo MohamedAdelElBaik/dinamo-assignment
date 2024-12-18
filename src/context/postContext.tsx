@@ -8,7 +8,7 @@ export type PostContextType = {
   fetchAllPosts: () => Promise<void>;
   editPost: (id: number, title: string, body: string) => Promise<void>;
   deletePostById: (
-    id: number,
+    { id, title }: { id: number; title: string },
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => Promise<void>;
   createPostFun: (

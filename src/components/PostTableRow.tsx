@@ -76,7 +76,12 @@ export default function PostTableRow({ post }: { post: Post }) {
                 <DialogFooter>
                   <Button
                     variant="outline"
-                    onClick={() => deletePostById(post.id, setIsLoading)}
+                    onClick={() =>
+                      deletePostById(
+                        { id: post.id, title: post.title },
+                        setIsLoading
+                      )
+                    }
                   >
                     Yes, delete it
                   </Button>

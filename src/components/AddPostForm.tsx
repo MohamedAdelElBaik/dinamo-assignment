@@ -8,11 +8,17 @@ import { Textarea } from "@/components/ui/textarea";
 import React, { useState } from "react";
 // import { createPost } from "../services/postService";
 import { usePostContext } from "../context/postContext";
+import useCustomForm from "../hooks/useCustomForm";
+import { PostFormValues } from "../types/Post";
 
-const initialFormValue = { title: "", body: "" };
+const initialFormValue: PostFormValues = { title: "", body: "" };
 
 export default function AddPostForm() {
-  const [formValues, setFormValues] = useState(initialFormValue);
+  const { formValues, handleChange, handleSubmit } =
+    useCustomForm<PostFormValues>(initialFormValue, (values) =>
+      createPostFun(values, setIsLoading)
+    );
+
   const [isLoading, setIsLoading] = useState(false);
   const { createPostFun } = usePostContext();
 
@@ -20,20 +26,6 @@ export default function AddPostForm() {
     if (!formValues.title || !formValues.body) return false;
 
     return true;
-  }
-
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    const { name: key, value } = e.target;
-    setFormValues((val) => ({ ...val, [key]: value }));
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    createPostFun(formValues, setIsLoading);
-    setFormValues(initialFormValue);
   }
 
   return (

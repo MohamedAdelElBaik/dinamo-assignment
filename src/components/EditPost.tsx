@@ -1,44 +1,54 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
-import { Post } from "@/src/types/Post";
+import { Post, PostFormValues } from "@/src/types/Post";
 import { usePostContext } from "../context/postContext";
+import useCustomForm from "../hooks/useCustomForm";
+import { Label } from "@/components/ui/label";
 
 export default function EditForm({ post }: { post: Post }) {
+  const initialFormValue: PostFormValues = {
+    title: post.title,
+    body: post.body,
+  };
+
   const { editPost } = usePostContext();
-  const [title, setTitle] = useState(post.title);
-  const [body, setBody] = useState(post.body);
+  const { formValues, handleChange, handleSubmit } =
+    useCustomForm<PostFormValues>(initialFormValue, (values) =>
+      editPost(post.id, values.title, values.body)
+    );
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        editPost(post.id, title, body);
+        handleSubmit(e);
       }}
     >
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="title" className="text-right">
+          <Label htmlFor="title" className="text-right">
             Title
-          </label>
+          </Label>
           <Input
             id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            name="title"
+            value={formValues.title}
+            onChange={handleChange}
             className="col-span-3"
           />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="body" className="text-right">
+          <Label htmlFor="body" className="text-right">
             Body
-          </label>
+          </Label>
           <Input
             id="body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
+            name="body"
+            value={formValues.body}
+            onChange={handleChange}
             className="col-span-3"
           />
         </div>
