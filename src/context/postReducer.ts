@@ -11,7 +11,6 @@ type PostAction =
   | { type: "DELETE_POST"; payload: number }
   | { type: "EDIT_POST"; payload: { id: number; title: string; body: string } }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_DELETE_LOADING"; payload: boolean }
   | {
       type: "CREATE_POST";
       payload: { id: number; title: string; body: string };
@@ -43,9 +42,6 @@ export const postReducer = (
 
     case "SET_LOADING":
       return { ...state, loading: action.payload };
-
-    case "SET_DELETE_LOADING":
-      return { ...state, deleteLoading: action.payload };
 
     case "CREATE_POST":
       return { ...state, posts: [action.payload, ...state.posts] };

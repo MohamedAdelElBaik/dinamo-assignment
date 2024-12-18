@@ -1,5 +1,6 @@
 "use client";
 
+import { Toaster } from "@/components/ui/toaster";
 import AddPost from "@/src/components/AddPost";
 import PostsCard from "@/src/components/PostsCard";
 import { PostProvider } from "@/src/context/postProvider";
@@ -18,6 +19,8 @@ export default function Home() {
           </section>
         </div>
       </main>
+
+      <Toaster />
     </PostProvider>
   );
 }
